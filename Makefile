@@ -10,7 +10,7 @@ test: start _test stop
 
 .PHONY: _test
 _test:
-	go test ./... -cover
+	INTEGRATION=true go test ./... -cover
 
 .PHONY: buildserver
 buildserver:

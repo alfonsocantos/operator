@@ -11,11 +11,11 @@ type SshConfig struct {
 	Private []byte
 }
 
-func (s *SshConfig) Connect() error {
+func (s *SshConfig) Connect() (*ssh.Client, error) {
 
 	signer, err := ssh.ParsePrivateKey(s.Private)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	config := &ssh.ClientConfig{
@@ -28,14 +28,10 @@ func (s *SshConfig) Connect() error {
 		},
 	}
 
-	conn, err := ssh.Dial("tcp", s.Addr, config)
+	client, err := ssh.Dial("tcp", s.Addr, config)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	session, err := conn.NewSession()
-	defer session.Close()
-
-	return nil
-
+	return client, nil
 }

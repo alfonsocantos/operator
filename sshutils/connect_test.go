@@ -8,6 +8,10 @@ import (
 
 func TestConnect(t *testing.T) {
 
+	if os.Getenv("INTEGRATION") == "" {
+		t.SkipNow()
+	}
+
 	keyBytes, err := os.ReadFile("../certs/id_rsa")
 	biff.AssertNil(err)
 
@@ -17,7 +21,8 @@ func TestConnect(t *testing.T) {
 		Private: keyBytes,
 	}
 
-	err = s.Connect()
+	sc, err := s.Connect()
 	biff.AssertNil(err)
+	biff.AssertNotNil(sc)
 
 }
