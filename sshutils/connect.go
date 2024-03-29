@@ -5,21 +5,15 @@ import (
 	"net"
 )
 
-type SshConfig struct {
-	Addr    string
-	User    string
-	Private []byte
-}
+func Connect(private []byte, user, addr string) (*ssh.Client, error) {
 
-func (s *SshConfig) Connect() (*ssh.Client, error) {
-
-	signer, err := ssh.ParsePrivateKey(s.Private)
+	signer, err := ssh.ParsePrivateKey(private)
 	if err != nil {
 		return nil, err
 	}
 
 	config := &ssh.ClientConfig{
-		User: s.User,
+		User: user,
 		Auth: []ssh.AuthMethod{
 			ssh.PublicKeys(signer),
 		},
@@ -28,7 +22,7 @@ func (s *SshConfig) Connect() (*ssh.Client, error) {
 		},
 	}
 
-	client, err := ssh.Dial("tcp", s.Addr, config)
+	client, err := ssh.Dial("tcp", addr, config)
 	if err != nil {
 		return nil, err
 	}

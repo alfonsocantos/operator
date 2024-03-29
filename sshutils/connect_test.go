@@ -15,13 +15,7 @@ func TestConnect(t *testing.T) {
 	keyBytes, err := os.ReadFile("../certs/id_rsa")
 	biff.AssertNil(err)
 
-	s := SshConfig{
-		Addr:    "127.0.0.1:2222",
-		User:    "root",
-		Private: keyBytes,
-	}
-
-	sc, err := s.Connect()
+	sc, err := Connect(keyBytes, "root", "127.0.0.1:2222")
 	biff.AssertNil(err)
 	biff.AssertNotNil(sc)
 
