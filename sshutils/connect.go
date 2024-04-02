@@ -2,7 +2,6 @@ package sshutils
 
 import (
 	"golang.org/x/crypto/ssh"
-	"net"
 )
 
 func Connect(private []byte, user, addr string) (*ssh.Client, error) {
@@ -17,9 +16,7 @@ func Connect(private []byte, user, addr string) (*ssh.Client, error) {
 		Auth: []ssh.AuthMethod{
 			ssh.PublicKeys(signer),
 		},
-		HostKeyCallback: func(hostname string, remote net.Addr, key ssh.PublicKey) error {
-			return nil
-		},
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(), // todo do it configurable
 	}
 
 	client, err := ssh.Dial("tcp", addr, config)
