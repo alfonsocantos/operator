@@ -1,4 +1,4 @@
-module operator
+module github.com/alfonsocantos/operator
 
 go 1.24.0
 
