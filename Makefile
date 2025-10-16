@@ -9,7 +9,7 @@ deps:
 test: start _test stop
 
 .PHONY: _test
-_test: stop
+_test:
 	INTEGRATION=true go test ./... -cover
 
 .PHONY: buildserver
